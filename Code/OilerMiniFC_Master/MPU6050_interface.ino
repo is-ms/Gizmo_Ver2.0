@@ -14,18 +14,31 @@ void mpu6050_setup()
   delay(40);
   if (gyro_calibration_enabled)
   {
-    for (int i = 0; i <= 1999; i++) {                     //Gyro static bias filter.
+    for (int i = 0; i <= 1999; i++) {                       //Gyro static bias filter.
       if (i % 100 == 0) digitalWrite(IND_LED_RED, !digitalRead(IND_LED_RED));
-      Wire.beginTransmission(0x68);                       //Start communication with the gyro.
-      Wire.write(0x43);                                   //Start reading @ register 43h and auto increment with every read.
-      Wire.endTransmission();                             //End the transmission.
-      Wire.requestFrom(0x68, 6);                          //Request 14 bytes from the gyro.
+      Wire.beginTransmission(0x68);                         //Start communication with the gyro.
+      Wire.write(0x3B);                                     //Start reading @ register 3Bh and auto increment with every read.
+      Wire.endTransmission();                               //End the transmission.
+      Wire.requestFrom(0x68, 14);                           //Request 14 bytes from the gyro.
+      acc_axis[0] = Wire.read() << 8 | Wire.read();
+      acc_axis[1] = Wire.read() << 8 | Wire.read();
+      acc_axis[2] = Wire.read() << 8 | Wire.read();
+      mpu6050_temperature_raw = Wire.read() << 8 | Wire.read();
       gyro_axis[0] = Wire.read() << 8 | Wire.read();
       gyro_axis[1] = Wire.read() << 8 | Wire.read();
       gyro_axis[2] = Wire.read() << 8 | Wire.read();
-      gyro_axis_cal[0] += gyro_axis[0];
-      gyro_axis_cal[1] += gyro_axis[1];
-      gyro_axis_cal[2] += gyro_axis[2];
+      acc_total_vector = sqrt((acc_axis[0] * acc_axis[0]) + (acc_axis[1] * acc_axis[1]) + (acc_axis[2] * acc_axis[2]));    //Calculate the total accelerometer vector
+      if ((acc_total_vector >= 4086) && (acc_total_vector <= 4106))       //Condition to ensure that sensor is stationary on initialization
+      {
+        gyro_axis_cal[0] += gyro_axis[0];
+        gyro_axis_cal[1] += gyro_axis[1];
+        gyro_axis_cal[2] += gyro_axis[2];
+      }
+      else 
+      {
+        i--;
+        if (i <= 0) i = 0;
+      }
     }
     digitalWrite(IND_LED_RED, HIGH);
     gyro_axis_cal[0] /= 2000;
@@ -48,8 +61,12 @@ void mpu6050_setup()
     {
       roll_angle_acc_startup += roll_angle_acc;
       pitch_angle_acc_startup += pitch_angle_acc;
+    }      
+    else 
+    {
+      i--;
+      if (i <= 0) i = 0;
     }
-    else i--;
   }
   roll_angle = (roll_angle_acc_startup / 3);
   pitch_angle = (pitch_angle_acc_startup / 3);
@@ -61,7 +78,7 @@ void mpu6050_read()
   //>>>>>>>>>>>>  READ RAW DATA  <<<<<<<<<<<<
 
   Wire.beginTransmission(0x68);                         //Start communication with the gyro.
-  Wire.write(0x3B);                                     //Start reading @ register 43h and auto increment with every read.
+  Wire.write(0x3B);                                     //Start reading @ register 3Bh and auto increment with every read.
   Wire.endTransmission();                               //End the transmission.
   Wire.requestFrom(0x68, 14);                           //Request 14 bytes from the gyro.
   acc_axis[0] = Wire.read() << 8 | Wire.read();
