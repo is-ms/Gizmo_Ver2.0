@@ -16,7 +16,6 @@
 #include <SPI.h>
 #include <nRF24L01.h>
 #include <RF24.h>
-#include <TimerOne.h>
 #include "global_variables.h"
 #include "GPIOs_Map.h"
 
@@ -35,18 +34,18 @@ void loop()
 {
   //VBatt_read();                                  //Read main battery voltage
   //process_Rx_inputs();                           //Read remote controller inputs
-  mpu6050_read();
-  PID();
+  //mpu6050_read();
+  //PID();
   //motors_output();
   //if (xx >= 5) {
   //  xx = 0;
-  //receiver_read();
+  receiver_read();
   //}
   //else xx++;
-  /*M1_output = 5;
-  M2_output = 5;
-  M3_output = 5;
-  M4_output = 5;
+  M1_output = 0;
+  M2_output = 0;
+  M3_output = 0;
+  M4_output = 0;
   motors_output();
   delay(1000);
   M1_output = 0;
