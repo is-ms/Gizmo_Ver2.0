@@ -44,8 +44,12 @@ void mpu6050_setup()
   for (int i = 0; i < 3; i++)
   {
     mpu6050_read();
-    roll_angle_acc_startup += roll_angle_acc;
-    pitch_angle_acc_startup += pitch_angle_acc;
+    if ((acc_total_vector >= 4086) && (acc_total_vector <= 4106)) //Condition to ensure that sensor is stationary on initialization
+    {
+      roll_angle_acc_startup += roll_angle_acc;
+      pitch_angle_acc_startup += pitch_angle_acc;
+    }
+    else i--;
   }
   roll_angle = (roll_angle_acc_startup / 3);
   pitch_angle = (pitch_angle_acc_startup / 3);
