@@ -10,7 +10,7 @@ bool previous_state = 0;
 uint16_t loop_delay_counter = 0;
 bool loop_delay_return = 0;
 uint16_t disconnected_rc_loop_counter = 0;
-int xx = 0;
+uint8_t xx = 0;
 
 //Global variables for "Receiver_Interface"
 /*

@@ -52,7 +52,7 @@ void receiver_read()
     roll = 3000;
     yaw = 3000;
     Serial.println("No radio connection...");
-    digitalWrite(IND_LED_RED, HIGH);
+    //digitalWrite(IND_LED_RED, HIGH);
   }
   //delay(13);
 }
