@@ -37,24 +37,32 @@ void loop()
   //mpu6050_read();
   //PID();
   //motors_output();
-  //if (xx >= 5) {
-  //  xx = 0;
+  if (xx >= 3) {
+    xx = 0;
   receiver_read();
-  //}
-  //else xx++;
-  M1_output = 0;
-  M2_output = 0;
-  M3_output = 0;
-  M4_output = 0;
+  }
+  else xx++;
+  if ((packet & B00000001) == 0) {
+    M1_output = 120;
+    M2_output = 100;
+    M3_output = 120;
+    M4_output = 120;
+  }
+  else {
+    M1_output = 0;
+    M2_output = 0;
+    M3_output = 0;
+    M4_output = 0;
+  }
   motors_output();
-  delay(1000);
-  M1_output = 0;
-  M2_output = 0;
-  M3_output = 0;
-  M4_output = 0;
-  motors_output();
-  delay(2500);
-  /*if (RC_connected == 1) {                       //Check remote controller status and change drone states accordingly
+  /*delay(1000);
+    M1_output = 0;
+    M2_output = 0;
+    M3_output = 0;
+    M4_output = 0;
+    motors_output();
+    delay(2500);
+    /*if (RC_connected == 1) {                       //Check remote controller status and change drone states accordingly
     if (RC_armed == 1) {
       if (start != true) start = true;           //Don't re-write if already set to TRUE
       PWR_LEDs_mode(BLU, 30, 2000);
@@ -169,7 +177,6 @@ void loop()
   else digitalWrite(IND_LED_RED, HIGH);
   while ((micros() - loop_timer) < 4000);
   loop_timer = micros();
-  //delay(13);
 }
 
 bool loop_delay(uint16_t counter) {
