@@ -16,7 +16,7 @@ void motors_setup()
   TCCR1B = _BV(CS10) | _BV(CS11);
   motors_off();
 }
-  
+
 void motors_output()
 {
   OCR0B = M1_output;
