@@ -28,7 +28,7 @@ void mpu6050_setup()
       gyro_axis[1] = Wire.read() << 8 | Wire.read();
       gyro_axis[2] = Wire.read() << 8 | Wire.read();
       acc_total_vector = sqrt((acc_axis[0] * acc_axis[0]) + (acc_axis[1] * acc_axis[1]) + (acc_axis[2] * acc_axis[2]));    //Calculate the total accelerometer vector
-      if ((acc_total_vector >= 3086) && (acc_total_vector <= 5106))       //Condition to ensure that sensor is stationary on initialization
+      if ((acc_total_vector >= 3786) && (acc_total_vector <= 4406))       //Condition to ensure that sensor is stationary on initialization
       {
         gyro_axis_cal[0] += gyro_axis[0];
         gyro_axis_cal[1] += gyro_axis[1];
@@ -57,7 +57,7 @@ void mpu6050_setup()
   for (int i = 0; i < 3; i++)
   {
     mpu6050_read();
-    if ((acc_total_vector >= 3086) && (acc_total_vector <= 5106)) //Condition to ensure that sensor is stationary on initialization
+    if ((acc_total_vector >= 3786) && (acc_total_vector <= 4406)) //Condition to ensure that sensor is stationary on initialization
     {
       roll_angle_acc_startup += roll_angle_acc;
       pitch_angle_acc_startup += pitch_angle_acc;

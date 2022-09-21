@@ -13,7 +13,7 @@ void motors_setup()
   TCCR0A = _BV(COM2A1) | _BV(COM2B1) | _BV(WGM21) | _BV(WGM20);
   TCCR0B = _BV(CS01);
   TCCR1A = _BV(COM2A1) | _BV(WGM21) | _BV(WGM20);
-  TCCR1B = _BV(CS10) | _BV(CS11);
+  TCCR1B = _BV(CS10);// | _BV(CS11);
   motors_off();
 }
 

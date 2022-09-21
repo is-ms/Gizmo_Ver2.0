@@ -38,14 +38,14 @@ void loop()
   //motors_output();
   if (xx >= 3) {
     xx = 0;
-  receiver_read();
+    receiver_read();
   }
   else xx++;
   if ((packet & B00000001) == 0) {
-    M1_output = 120;
-    M2_output = 100;
-    M3_output = 120;
-    M4_output = 120;
+    M1_output = 25;
+    M2_output = 2;
+    M3_output = 25;
+    M4_output = 25;
   }
   else {
     M1_output = 0;

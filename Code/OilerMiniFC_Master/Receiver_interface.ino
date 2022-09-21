@@ -41,7 +41,7 @@ void receiver_read()
     else if ((packet & B00001000) == 0)                                     yaw = 4000;
     else if ((packet & B00000100) == 0)                                     yaw = 2000;
     else                                                                    yaw = 3000;
-    Serial.println(packet);
+    //Serial.println(packet);
     //print_result();
     digitalWrite(IND_LED_RED, LOW);
   }
