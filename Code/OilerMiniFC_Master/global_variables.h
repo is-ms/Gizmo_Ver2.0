@@ -5,7 +5,7 @@
 float VBatt;
 //Global variables for "Main"
 bool start = 0;
-int32_t loop_timer = 0;
+uint32_t loop_timer = 0;
 bool previous_state = 0;
 uint16_t loop_delay_counter = 0;
 bool loop_delay_return = 0;

@@ -26,7 +26,7 @@ void setup()
   receiver_setup();
   mpu6050_setup();
   motors_setup();
-  loop_timer = micros();
+  loop_timer = (micros() / 8);
 }
 
 void loop()
@@ -115,20 +115,20 @@ void loop()
   */
   //display_rc_inputs();
   //mpu6050_display_angles();
-  //Serial.println(VBatt);
-  Serial.print(M1_output);
+  //Serial.println(loop_timer);
+  /*Serial.print(M1_output);
     Serial.print("        ");
     Serial.print(M2_output);
     Serial.print("        ");
     Serial.print(M3_output);
     Serial.print("        ");
-    Serial.println(M4_output);
+    Serial.println(M4_output);*/
 
 
-  if ((micros() - loop_timer) > 4000) digitalWrite(IND_LED_RED, LOW);
-  else digitalWrite(IND_LED_RED, HIGH);
-  while ((micros() - loop_timer) < 4000);
-  loop_timer = micros();
+  if (((micros() / 8) - loop_timer) > 4008) digitalWrite(IND_LED_RED, HIGH);
+  else digitalWrite(IND_LED_RED, LOW);
+  while (((micros() / 8) - loop_timer) < 3992);
+  loop_timer = (micros() / 8);
 }
 
 bool loop_delay(uint16_t counter) {

@@ -43,7 +43,7 @@ void receiver_read()
     else                                                                    rc_yaw_input = 0;//yaw = 3000;
     //Serial.println(packet);
     //print_result();
-    digitalWrite(IND_LED_RED, LOW);
+    digitalWrite(IND_LED_RED, HIGH);
   }
   else
   {
@@ -51,8 +51,8 @@ void receiver_read()
     pitch = 3000;
     roll = 3000;
     yaw = 3000;
-    Serial.println("No radio connection...");
-    digitalWrite(IND_LED_RED, HIGH);
+    //Serial.println("No radio connection...");
+    digitalWrite(IND_LED_RED, LOW);
   }
 }
 

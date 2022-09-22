@@ -15,7 +15,7 @@ void mpu6050_setup()
   if (gyro_calibration_enabled)
   {
     for (int i = 0; i <= 1999; i++) {                       //Gyro static bias filter.
-      if (i % 100 == 0) digitalWrite(IND_LED_RED, !digitalRead(IND_LED_RED));
+      if (i % 40 == 0) digitalWrite(IND_LED_RED, !digitalRead(IND_LED_RED));
       Wire.beginTransmission(0x68);                         //Start communication with the gyro.
       Wire.write(0x3B);                                     //Start reading @ register 3Bh and auto increment with every read.
       Wire.endTransmission();                               //End the transmission.
@@ -152,22 +152,22 @@ void set_mpu6050_registers()
 
 void mpu6050_display_angles()
 {
-  //Serial.print("ACC X = ");
-  //Serial.print(acc_axis[0]);
-  //Serial.print("  ACC Y = ");
-  //Serial.print(acc_axis[1]);
-  //Serial.print("  ACC Z = ");
-  //Serial.print(acc_axis[2]);
-  //Serial.print("  Total Vect = ");
-  //Serial.print(acc_total_vector);
-  //Serial.print("  Temperature = ");
-  //Serial.println(mpu6050_temperature);
-  //Serial.print("Gyro X = ");
-  //Serial.print(gyro_axis[0]);
-  //Serial.print("    Gyro Y = ");
-  //Serial.print(gyro_axis[1]);
-  //Serial.print("    Gyro Z = ");
-  //Serial.println(gyro_axis[2]);
+  /*Serial.print("ACC X = ");
+  Serial.print(acc_axis[0]);
+  Serial.print("  ACC Y = ");
+  Serial.print(acc_axis[1]);
+  Serial.print("  ACC Z = ");
+  Serial.print(acc_axis[2]);
+  Serial.print("  Total Vect = ");
+  Serial.println(acc_total_vector);*/
+  /*Serial.print("  Temperature = ");
+  Serial.println(mpu6050_temperature);*/
+  /*Serial.print("Gyro X = ");
+  Serial.print(gyro_axis[0]);
+  Serial.print("    Gyro Y = ");
+  Serial.print(gyro_axis[1]);
+  Serial.print("    Gyro Z = ");
+  Serial.println(gyro_axis[2]);*/
   Serial.print("roll_angle = ");
   Serial.print(roll_angle);
   Serial.print("    pitch_angle = ");
