@@ -116,13 +116,13 @@ void loop()
   //display_rc_inputs();
   //mpu6050_display_angles();
   //Serial.println(VBatt);
-  /*Serial.print(M1_output);
+  Serial.print(M1_output);
     Serial.print("        ");
     Serial.print(M2_output);
     Serial.print("        ");
     Serial.print(M3_output);
     Serial.print("        ");
-    Serial.println(M4_output);*/
+    Serial.println(M4_output);
 
 
   if ((micros() - loop_timer) > 4000) digitalWrite(IND_LED_RED, LOW);

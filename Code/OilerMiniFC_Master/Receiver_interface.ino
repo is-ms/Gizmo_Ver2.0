@@ -28,20 +28,20 @@ void receiver_read()
     else                                                                    rc_throttle_input = 0;//throttle = 3000;
 
     if (((packet & B00100000) == 0) && ((packet & B00010000) == 0))         rc_pitch_input = 0;//pitch = 3000;             //Pitch
-    else if ((packet & B00100000) == 0)                                     rc_pitch_input = 15;//pitch = 4000;
-    else if ((packet & B00010000) == 0)                                     rc_pitch_input = -15;//pitch = 2000;
+    else if ((packet & B00100000) == 0)                                     rc_pitch_input = -15;//pitch = 4000;
+    else if ((packet & B00010000) == 0)                                     rc_pitch_input = 15;//pitch = 2000;
     else                                                                    rc_pitch_input = 0;//pitch = 3000;
 
     if (((packet & B10000000) == 0) && ((packet & B01000000) == 0))         rc_roll_input = 0;//roll = 3000;              //Roll
-    else if ((packet & B10000000) == 0)                                     rc_roll_input = -15;//roll = 4000;
-    else if ((packet & B01000000) == 0)                                     rc_roll_input = 15;//roll = 2000;
+    else if ((packet & B10000000) == 0)                                     rc_roll_input = 15;//roll = 4000;
+    else if ((packet & B01000000) == 0)                                     rc_roll_input = -15;//roll = 2000;
     else                                                                    rc_roll_input = 0;//roll = 3000;
 
     if (((packet & B00001000) == 0) && ((packet & B00000100) == 0))         rc_yaw_input = 0;//yaw = 3000;               //Yaw
     else if ((packet & B00001000) == 0)                                     rc_yaw_input = 3;//yaw = 4000;
     else if ((packet & B00000100) == 0)                                     rc_yaw_input = -3;//yaw = 2000;
     else                                                                    rc_yaw_input = 0;//yaw = 3000;
-    Serial.println(packet);
+    //Serial.println(packet);
     //print_result();
     digitalWrite(IND_LED_RED, LOW);
   }
@@ -54,7 +54,6 @@ void receiver_read()
     Serial.println("No radio connection...");
     digitalWrite(IND_LED_RED, HIGH);
   }
-  //delay(13);
 }
 
 void print_result()

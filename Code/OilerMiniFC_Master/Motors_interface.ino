@@ -8,20 +8,19 @@ void motors_setup()
   pinMode(M2, OUTPUT);
   pinMode(M3, OUTPUT);
   pinMode(M4, OUTPUT);
-  TCCR2A = _BV(COM2B1) | _BV(WGM21) | _BV(WGM20);
-  TCCR2B = _BV(CS21);
-  TCCR0A = _BV(COM2A1) | _BV(COM2B1) | _BV(WGM21) | _BV(WGM20);
-  TCCR0B = _BV(CS01);
-  TCCR1A = _BV(COM2A1) | _BV(WGM21) | _BV(WGM20);
-  TCCR1B = _BV(CS10) | _BV(CS11);
+  TCCR2A = _BV(COM2B1) | _BV(WGM21) | _BV(WGM20);                   //FAST PWM Mode
+  TCCR2B = _BV(CS21);                                               //Pre-scaler = 8
+  TCCR0A = _BV(COM0A1) | _BV(COM0B1) | _BV(WGM01) | _BV(WGM00);     //FAST PWM Mode
+  TCCR0B = _BV(CS01);                                               //Pre-scaler = 8
+  TCCR1A = _BV(COM1A1) | _BV(WGM12) | _BV(WGM10);                   //FAST PWM Mode, Top Value = 0x00FF
+  TCCR1B = _BV(CS11);                                               //Pre-scaler = 8  
   motors_off();
 }
 
 void motors_output()
 {
   OCR0B = uint8_t(M1_output);
-  M2_output = map(M2_output, 0, 255, 0, 65535);
-  OCR1A = uint16_t(M2_output)*2;
+  OCR1A = uint8_t(M2_output);
   OCR0A = uint8_t(M3_output);
   OCR2B = uint8_t(M4_output);
 }
