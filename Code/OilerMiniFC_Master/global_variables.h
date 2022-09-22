@@ -58,10 +58,10 @@ float roll_angle, pitch_angle, yaw_angle;
 float roll_angle_acc, pitch_angle_acc, yaw_angle_acc, roll_angle_acc_startup, pitch_angle_acc_startup;
 
 //Global variables for "Motors_Interface"
-uint16_t M1_output = 0;
-uint16_t M2_output = 0;
-uint16_t M3_output = 0;
-uint16_t M4_output = 0;
+int16_t M1_output = 0;
+int16_t M2_output = 0;
+int16_t M3_output = 0;
+int16_t M4_output = 0;
 int32_t pulse_rise, pulse_fall;
 
 //Global variables for "PWR_LEDs"
@@ -85,22 +85,22 @@ int16_t altitude_pid_output = 0;
 int8_t rc_pitch_input = 0;
 float pitch_setpoint, pitch_error, pitch_i_error, pitch_last_error;
 float pitch_pid_p_gain = 1;
-float pitch_pid_i_gain = 0.01;
-float pitch_pid_d_gain = 4;
+float pitch_pid_i_gain = 0.0;
+float pitch_pid_d_gain = 0;
 int16_t pitch_pid_output = 0;
 
 //roll_PID
 int8_t rc_roll_input = 0;
 float roll_setpoint, roll_error, roll_i_error, roll_last_error;
 float roll_pid_p_gain = 1;
-float roll_pid_i_gain = 0.01;
-float roll_pid_d_gain = 4;
+float roll_pid_i_gain = 0.0;
+float roll_pid_d_gain = 0;
 int16_t roll_pid_output = 0;
 
 //yaw_PID
 int8_t rc_yaw_input = 0;
 float yaw_setpoint, yaw_error, yaw_i_error, yaw_last_error;
 float yaw_pid_p_gain = 1;
-float yaw_pid_i_gain = 0.01;
+float yaw_pid_i_gain = 0.0;
 float yaw_pid_d_gain = 0;
 int16_t yaw_pid_output = 0;

@@ -13,17 +13,17 @@ void motors_setup()
   TCCR0A = _BV(COM2A1) | _BV(COM2B1) | _BV(WGM21) | _BV(WGM20);
   TCCR0B = _BV(CS01);
   TCCR1A = _BV(COM2A1) | _BV(WGM21) | _BV(WGM20);
-  TCCR1B = _BV(CS10);// | _BV(CS11);
+  TCCR1B = _BV(CS10) | _BV(CS11);
   motors_off();
 }
 
 void motors_output()
 {
-  OCR0B = M1_output;
+  OCR0B = uint8_t(M1_output);
   M2_output = map(M2_output, 0, 255, 0, 65535);
-  OCR1A = M2_output;
-  OCR0A = M3_output;
-  OCR2B = M4_output;
+  OCR1A = uint16_t(M2_output)*2;
+  OCR0A = uint8_t(M3_output);
+  OCR2B = uint8_t(M4_output);
 }
 
 void motors_off()

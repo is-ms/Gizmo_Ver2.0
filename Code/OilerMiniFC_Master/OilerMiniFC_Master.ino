@@ -33,26 +33,27 @@ void loop()
 {
   //VBatt_read();                                  //Read main battery voltage
   //process_Rx_inputs();                           //Read remote controller inputs
-  //mpu6050_read();
+  mpu6050_read();
   //PID();
   //motors_output();
-  if (xx >= 3) {
+  if (xx >= 4) {
     xx = 0;
     receiver_read();
   }
   else xx++;
-  if ((packet & B00000001) == 0) {
+  /*if ((packet & B00000001) == 0) {
     M1_output = 25;
-    M2_output = 2;
+    M2_output = 95;
     M3_output = 25;
     M4_output = 25;
-  }
-  else {
+    }
+    else {
     M1_output = 0;
     M2_output = 0;
     M3_output = 0;
     M4_output = 0;
-  }
+    }*/
+  PID();
   motors_output();
   /*delay(1000);
     M1_output = 0;
@@ -122,52 +123,7 @@ void loop()
     Serial.print(M3_output);
     Serial.print("        ");
     Serial.println(M4_output);*/
-  /*Serial.print(gyro_axis_cal[0]);
-    Serial.print("        ");
-    Serial.print(gyro_axis_cal[1]);
-    Serial.print("        ");
-    Serial.print(gyro_axis_cal[2]);
-    Serial.print("        ");
-    Serial.println(mpu6050_temperature);
-    /*if (packet != 255)
-    {
-    (0b1 & (packet >> 1)) ?  digitalWrite(BUZZER_PIN, LOW) : digitalWrite(BUZZER_PIN, HIGH);
-    (0b1 & (packet >> 4)) ?  PWR_LED_RED_output = 1000 : PWR_LED_RED_output = 0;
-    (0b1 & (packet >> 5)) ?  PWR_LED_GRN_output = 1000 : PWR_LED_GRN_output = 0;
-    (0b1 & (packet >> 6)) ?  PWR_LED_BLU_output = 1000 : PWR_LED_BLU_output = 0;
-    (0b1 & (packet >> 3)) ?  digitalWrite(IND_LED_RED, HIGH) : digitalWrite(IND_LED_RED, LOW);
-    (0b1 & (packet >> 7)) ?  digitalWrite(IND_LED_RED, HIGH) : digitalWrite(IND_LED_RED, LOW);
-    if (0b1 & (packet >> 0))
-    {
-      M1_output = 1000;
-      M2_output = 1060;
-      M3_output = 1000;
-      M4_output = 1060;
-    }
-    else
-    {
-      M1_output = 1000;
-      M2_output = 1000;
-      M3_output = 1000;
-      M4_output = 1000;
-    }
-    }
-    else
-    {
-    digitalWrite(IND_LED_RED, HIGH);
-    }*/
-  /*digitalWrite(M1, HIGH);
-    digitalWrite(M2, HIGH);
-    digitalWrite(M3, HIGH);
-    digitalWrite(M4, HIGH);
-    pulse_rise = micros();
-    while (digitalRead(M1) || digitalRead(M2) || digitalRead(M3) || digitalRead(M4)) {
-    pulse_fall = micros() - pulse_rise;
-    if (pulse_fall >= M1_output) digitalWrite(M1, LOW);
-    if (pulse_fall >= M2_output) digitalWrite(M2, LOW);
-    if (pulse_fall >= M3_output) digitalWrite(M3, LOW);
-    if (pulse_fall >= M4_output) digitalWrite(M4, LOW);
-    }*/
+
 
   if ((micros() - loop_timer) > 4000) digitalWrite(IND_LED_RED, LOW);
   else digitalWrite(IND_LED_RED, HIGH);
