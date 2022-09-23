@@ -62,8 +62,8 @@ void roll_PID()
 
 void yaw_PID()
 {
-  yaw_error = yaw_angle - yaw_setpoint + (rc_yaw_input * 15);                                 //Update setpoint upon the user input
-  //yaw_error = (rc_yaw_input * 15);
+  //yaw_error = yaw_angle - yaw_setpoint + (rc_yaw_input * 15);                                 //Update setpoint upon the user input
+  yaw_error = (rc_yaw_input * 15);
   yaw_i_error += yaw_pid_i_gain * yaw_error;
   yaw_pid_output = (yaw_pid_p_gain * yaw_error) + yaw_i_error + (yaw_pid_d_gain * (yaw_error - yaw_last_error));
   yaw_last_error = yaw_error;

@@ -26,7 +26,7 @@ void setup()
   receiver_setup();
   mpu6050_setup();
   motors_setup();
-  loop_timer = (micros() / 8);
+  loop_timer = micros();
 }
 
 void loop()
@@ -125,10 +125,10 @@ void loop()
     Serial.println(M4_output);*/
 
 
-  if (((micros() / 8) - loop_timer) > 4008) digitalWrite(IND_LED_RED, HIGH);
+  if ((micros() - loop_timer) > 32032) digitalWrite(IND_LED_RED, HIGH);   //32000 counts = 4000 microseconds
   else digitalWrite(IND_LED_RED, LOW);
-  while (((micros() / 8) - loop_timer) < 3992);
-  loop_timer = (micros() / 8);
+  while ((micros() - loop_timer) < 31968);
+  loop_timer = micros();
 }
 
 bool loop_delay(uint16_t counter) {

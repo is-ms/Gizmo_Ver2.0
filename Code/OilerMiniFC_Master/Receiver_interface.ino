@@ -23,8 +23,8 @@ void receiver_read()
     radio.read(&packet, sizeof(packet));
 
     if (((packet & B00000001) == 0) && ((packet & B00000010) == 0))         rc_throttle_input = 0;//throttle = 3000;          //Throttle
-    else if ((packet & B00000001) == 0)                                     rc_throttle_input = 25;//throttle = 4000;
-    else if ((packet & B00000010) == 0)                                     rc_throttle_input = -25;//throttle = 2000;
+    else if ((packet & B00000001) == 0)                                     rc_throttle_input = 30;//throttle = 4000;
+    else if ((packet & B00000010) == 0)                                     rc_throttle_input = -30;//throttle = 2000;
     else                                                                    rc_throttle_input = 0;//throttle = 3000;
 
     if (((packet & B00100000) == 0) && ((packet & B00010000) == 0))         rc_pitch_input = 0;//pitch = 3000;             //Pitch
