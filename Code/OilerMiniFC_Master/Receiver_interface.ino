@@ -43,7 +43,7 @@ void receiver_read()
     else                                                                    rc_yaw_input = 0;//yaw = 3000;
     //Serial.println(packet);
     //print_result();
-    PINC |= 0b00000100;
+    PORTC |= 0b00000100;
   }
   else
   {
@@ -52,7 +52,7 @@ void receiver_read()
     roll = 3000;
     yaw = 3000;
     //Serial.println("No radio connection...");
-    PINC |= 0b11111011;
+    PORTC &= 0b11111011;
   }
 }
 

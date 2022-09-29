@@ -26,6 +26,7 @@ void setup()
   receiver_setup();
   mpu6050_setup();
   motors_setup();
+  digitalWrite(IND_LED_RED, LOW);
   loop_timer = micros();
 }
 
@@ -93,7 +94,7 @@ void loop()
     previous_state = start;
   */
   //display_rc_inputs();
-  mpu6050_display_angles();
+  //mpu6050_display_angles();
   //Serial.println(loop_timer);
   /*Serial.print(M1_output);
     Serial.print("        ");
@@ -104,8 +105,8 @@ void loop()
     Serial.println(M4_output);*/
 
 
-  if ((micros() - loop_timer) > 32032) PINC |= 0b00000100;   //32000 counts = 4000 microseconds
-  else PINC &= 0b11111011;
+  if ((micros() - loop_timer) > 32032) PORTC |= 0b00000100;   //32000 counts = 4000 microseconds
+  //else PORTC &= 0b11111011;  
   while ((micros() - loop_timer) < 31952);
   loop_timer = micros();
 }
