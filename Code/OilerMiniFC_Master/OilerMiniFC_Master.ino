@@ -41,7 +41,7 @@ void loop()
   }
   else xx++;
   PID();
-  //motors_output();
+  motors_output();
   /*if (RC_connected == 1) {                       //Check remote controller status and change drone states accordingly
     if (RC_armed == 1) {
     if (start != true) start = true;           //Don't re-write if already set to TRUE
@@ -105,8 +105,8 @@ void loop()
     Serial.println(M4_output);*/
 
 
-  if ((micros() - loop_timer) > 32032) PORTC |= 0b00000100;   //32000 counts = 4000 microseconds
-  //else PORTC &= 0b11111011;  
+  if ((micros() - loop_timer) > 32024) PORTC |= 0b00000100;   //32000 counts = 4000 microseconds
+  else PORTC &= 0b11111011;  
   while ((micros() - loop_timer) < 31952);
   loop_timer = micros();
 }

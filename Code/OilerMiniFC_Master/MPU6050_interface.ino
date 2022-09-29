@@ -84,7 +84,7 @@ void mpu6050_setup()
       acc_axis[1] -= acc_axis_cal[1];
       acc_axis[2] -= acc_axis_cal[2];
       acc_total_vector = sqrt((acc_axis[0] * acc_axis[0]) + (acc_axis[1] * acc_axis[1]) + (acc_axis[2] * acc_axis[2]));    //Calculate the total accelerometer vector
-      if ((acc_total_vector >= 4046) && (acc_total_vector <= 4146))       //Condition to ensure that sensor is stationary on initialization
+      if ((acc_total_vector >= 4080) && (acc_total_vector <= 4112))       //Condition to ensure that sensor is stationary on initialization
       {
         gyro_axis_cal[0] += gyro_axis[0];
         gyro_axis_cal[1] += gyro_axis[1];
@@ -105,16 +105,16 @@ void mpu6050_setup()
   else
   {
     digitalWrite(IND_LED_RED, HIGH);
-    gyro_axis_cal[0] = -329;
-    gyro_axis_cal[1] = -26;
-    gyro_axis_cal[2] = -245;
+    gyro_axis_cal[0] = -327;
+    gyro_axis_cal[1] = -25;
+    gyro_axis_cal[2] = -249;
   }
   digitalWrite(IND_LED_RED, LOW);
   delay(2000);
   for (int i = 0; i < 10; i++)
   {
     mpu6050_read();
-    if ((acc_total_vector >= 4046) && (acc_total_vector <= 4146)) //Condition to ensure that sensor is stationary on initialization
+    if ((acc_total_vector >= 4090) && (acc_total_vector <= 4102)) //Condition to ensure that sensor is stationary on initialization
     {
       roll_angle_acc_startup += roll_angle_acc;
       pitch_angle_acc_startup += pitch_angle_acc;
@@ -177,8 +177,8 @@ void mpu6050_read()
 
   //>>>>>>>>>>>  FINAL ANGLE CALC  <<<<<<<<<<
 
-  roll_angle = (0.9996 * roll_angle) + (0.0004 * roll_angle_acc);
-  pitch_angle = (0.9996 * pitch_angle) + (0.0004 * pitch_angle_acc);
+  roll_angle = (0.9994 * roll_angle) + (0.0006 * roll_angle_acc);
+  pitch_angle = (0.9994 * pitch_angle) + (0.0006 * pitch_angle_acc);
 }
 
 void set_mpu6050_registers()
@@ -234,11 +234,11 @@ void mpu6050_display_angles()
     Serial.print(acc_axis_cal[1]);
     Serial.print("    Acc_cal Z = ");
     Serial.println(acc_axis_cal[2]);*/
-  /*Serial.print("Gyro X = ");
+  /*Serial.print("Gyro_cal X = ");
     Serial.print(gyro_axis_cal[0]);
-    Serial.print("    Gyro Y = ");
+    Serial.print("    Gyro_cal Y = ");
     Serial.print(gyro_axis_cal[1]);
-    Serial.print("    Gyro Z = ");
+    Serial.print("    Gyro_cal Z = ");
     Serial.println(gyro_axis_cal[2]);*/
   /*Serial.print("roll_angle_acc = ");
     Serial.print(roll_angle_acc);
