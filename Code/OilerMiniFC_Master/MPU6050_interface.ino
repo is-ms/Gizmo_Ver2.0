@@ -7,8 +7,11 @@
 
 void mpu6050_setup()
 {
-  for (int i = 0; i <= 2999; i++) {
-    if (i % 130 == 0) digitalWrite(IND_LED_RED, !digitalRead(IND_LED_RED));
+  for (int i = 0; i <= 999; i++) {
+    if (i % 70 == 0) {
+      digitalWrite(IND_LED_RED, !digitalRead(IND_LED_RED));
+      Serial.println(".");
+    }
     delay(2);
   }
   digitalWrite(IND_LED_RED, LOW);
@@ -17,6 +20,45 @@ void mpu6050_setup()
   delay(200);
   set_mpu6050_registers();
   delay(40);
+  if (acc_calibration_enabled)
+  {
+    for (int i = 0; i <= 99; i++) {                         //Accelerometer static bias filter.
+      if (i % 10 == 0) digitalWrite(IND_LED_RED, !digitalRead(IND_LED_RED));
+      Wire.beginTransmission(0x68);                         //Start communication with the gyro.
+      Wire.write(0x3B);                                     //Start reading @ register 3Bh and auto increment with every read.
+      Wire.endTransmission();                               //End the transmission.
+      Wire.requestFrom(0x68, 6);                            //Request 14 bytes from the gyro.
+      acc_axis[0] = Wire.read() << 8 | Wire.read();
+      acc_axis[1] = Wire.read() << 8 | Wire.read();
+      acc_axis[2] = Wire.read() << 8 | Wire.read();
+      acc_total_vector = sqrt((acc_axis[0] * acc_axis[0]) + (acc_axis[1] * acc_axis[1]) + (acc_axis[2] * acc_axis[2]));    //Calculate the total accelerometer vector
+      if ((acc_total_vector >= 4280) && (acc_total_vector <= 4350))       //Condition to ensure that sensor is stationary on initialization
+      {
+        acc_axis_cal[0] += acc_axis[0];
+        acc_axis_cal[1] += acc_axis[1];
+        acc_axis_cal[2] += acc_axis[2];
+      }
+      else
+      {
+        i--;
+        if (i <= 0) i = 0;
+      }
+      delay(2);
+    }
+    digitalWrite(IND_LED_RED, HIGH);
+    acc_axis_cal[0] /= 100;
+    acc_axis_cal[1] /= 100;
+    acc_axis_cal[2] /= 100;
+    acc_axis_cal[2] -= 4096;
+  }
+  else
+  {
+    digitalWrite(IND_LED_RED, HIGH);
+    acc_axis_cal[0] = 159;
+    acc_axis_cal[1] = -15;
+    acc_axis_cal[2] = 215;
+  }
+
   if (gyro_calibration_enabled)
   {
     for (int i = 0; i <= 999; i++) {                        //Gyro static bias filter.
@@ -44,6 +86,7 @@ void mpu6050_setup()
         i--;
         if (i <= 0) i = 0;
       }
+      delay(2);
     }
     digitalWrite(IND_LED_RED, HIGH);
     gyro_axis_cal[0] /= 1000;
@@ -62,7 +105,7 @@ void mpu6050_setup()
   for (int i = 0; i < 10; i++)
   {
     mpu6050_read();
-    if ((acc_total_vector >= 4280) && (acc_total_vector <= 4350)) //Condition to ensure that sensor is stationary on initialization
+    if ((acc_total_vector >= 4046) && (acc_total_vector <= 4146)) //Condition to ensure that sensor is stationary on initialization
     {
       roll_angle_acc_startup += roll_angle_acc;
       pitch_angle_acc_startup += pitch_angle_acc;
@@ -93,6 +136,9 @@ void mpu6050_read()
   gyro_axis[0] = Wire.read() << 8 | Wire.read();
   gyro_axis[1] = Wire.read() << 8 | Wire.read();
   gyro_axis[2] = Wire.read() << 8 | Wire.read();
+  acc_axis[0] -= acc_axis_cal[0];
+  acc_axis[1] -= acc_axis_cal[1];
+  acc_axis[2] -= acc_axis_cal[2];
   gyro_axis[0] -= gyro_axis_cal[0];                     //-329  X-axis
   gyro_axis[1] -= gyro_axis_cal[1];                     //-26   Y-axis
   gyro_axis[2] -= gyro_axis_cal[2];                     //-245    Z-axis
@@ -157,14 +203,14 @@ void set_mpu6050_registers()
 
 void mpu6050_display_angles()
 {
-  /*Serial.print("ACC X = ");
-    Serial.print(acc_axis[0]);
-    Serial.print("  ACC Y = ");
-    Serial.print(acc_axis[1]);
-    Serial.print("  ACC Z = ");
-    Serial.print(acc_axis[2]);
-    Serial.print("  Total Vect = ");
-    Serial.println(acc_total_vector);*/
+  Serial.print("ACC X = ");
+  Serial.print(acc_axis[0]);
+  Serial.print("  ACC Y = ");
+  Serial.print(acc_axis[1]);
+  Serial.print("  ACC Z = ");
+  Serial.print(acc_axis[2]);
+  Serial.print("  Total Vect = ");
+  Serial.println(acc_total_vector);
   /*Serial.print("  Temperature = ");
     Serial.println(mpu6050_temperature);*/
   /*Serial.print("Gyro X = ");
@@ -173,20 +219,26 @@ void mpu6050_display_angles()
     Serial.print(gyro_axis[1]);
     Serial.print("    Gyro Z = ");
     Serial.println(gyro_axis[2]);*/
+  /*Serial.print("Acc_cal X = ");
+    Serial.print(acc_axis_cal[0]);
+    Serial.print("    Acc_cal Y = ");
+    Serial.print(acc_axis_cal[1]);
+    Serial.print("    Acc_cal Z = ");
+    Serial.println(acc_axis_cal[2]);*/
   /*Serial.print("Gyro X = ");
     Serial.print(gyro_axis_cal[0]);
     Serial.print("    Gyro Y = ");
     Serial.print(gyro_axis_cal[1]);
     Serial.print("    Gyro Z = ");
     Serial.println(gyro_axis_cal[2]);*/
-  /*Serial.print("roll_angle_acc = ");
-    Serial.print(roll_angle_acc);
-    Serial.print("    pitch_angle_acc = ");
-    Serial.print(pitch_angle_acc);*/
-  Serial.print("roll_angle = ");
-  Serial.print(roll_angle);
-  Serial.print("    pitch_angle = ");
-  Serial.print(pitch_angle);
-  Serial.print("    yaw_angle = ");
-  Serial.println(yaw_angle);
+  //Serial.print("roll_angle_acc = ");
+  //Serial.print(roll_angle_acc);
+  //Serial.print("    pitch_angle_acc = ");
+  //Serial.print(pitch_angle_acc);
+  /*//Serial.print("roll_angle = ");
+    Serial.print(roll_angle);
+    //Serial.print("    pitch_angle = ");
+    Serial.print(pitch_angle);
+    //Serial.print("    yaw_angle = ");*/
+  //Serial.println(yaw_angle);
 }
