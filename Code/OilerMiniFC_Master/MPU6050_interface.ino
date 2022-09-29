@@ -23,7 +23,10 @@ void mpu6050_setup()
   if (acc_calibration_enabled)
   {
     for (int i = 0; i < 100; i++) {                         //Accelerometer static bias filter.
-      if (i % 10 == 0) digitalWrite(IND_LED_RED, !digitalRead(IND_LED_RED));
+      if (i % 10 == 0) {
+        digitalWrite(IND_LED_RED, !digitalRead(IND_LED_RED));
+        Serial.println("Calibrating Accelerometer..");
+      }
       Wire.beginTransmission(0x68);                         //Start communication with the gyro.
       Wire.write(0x3B);                                     //Start reading @ register 3Bh and auto increment with every read.
       Wire.endTransmission();                               //End the transmission.
@@ -62,7 +65,10 @@ void mpu6050_setup()
   if (gyro_calibration_enabled)
   {
     for (int i = 0; i < 100; i++) {                        //Gyro static bias filter.
-      if (i % 10 == 0) digitalWrite(IND_LED_RED, !digitalRead(IND_LED_RED));
+      if (i % 10 == 0) {
+        digitalWrite(IND_LED_RED, !digitalRead(IND_LED_RED));
+        Serial.println("Calibrating Gyroscope..");
+      }
       Wire.beginTransmission(0x68);                         //Start communication with the gyro.
       Wire.write(0x3B);                                     //Start reading @ register 3Bh and auto increment with every read.
       Wire.endTransmission();                               //End the transmission.
