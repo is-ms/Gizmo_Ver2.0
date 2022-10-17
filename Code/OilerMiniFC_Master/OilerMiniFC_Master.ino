@@ -41,7 +41,7 @@ void loop()
   }
   else xx++;
   PID();
-  motors_output();
+  //motors_output();
   /*if (RC_connected == 1) {                       //Check remote controller status and change drone states accordingly
     if (RC_armed == 1) {
     if (start != true) start = true;           //Don't re-write if already set to TRUE
