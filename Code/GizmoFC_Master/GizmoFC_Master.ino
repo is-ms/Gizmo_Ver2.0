@@ -1,5 +1,5 @@
 /*
-       OILER FLIGHT CONTROLLER       //             \\
+       GIZMO FLIGHT CONTROLLER       //             \\
                                  CC (4)             (1) CCW
                                     //  *    ^    *  \\
        Motors orientation                  * ^ *
