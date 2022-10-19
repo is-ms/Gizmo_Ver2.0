@@ -33,6 +33,8 @@ int16_t throttle, pitch, roll, yaw;
 uint8_t throttle_loop_counter = 0;
 
 //Global variables for"VL53L0X_Interface"
+uint8_t VHV_CONFIG_PAD_SCL_SDA__EXTSUP_HV = 0;
+uint8_t VL53L0X_stop_variable = 0;
 uint8_t VL53L0X_test_value = 0;
 //Global variables for"BME280_Interface"
 int16_t bmp280_ID = 0;
