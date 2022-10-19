@@ -7,14 +7,6 @@
 
 void mpu6050_setup()
 {
-  for (int i = 0; i <= 999; i++) {
-    if (i % 70 == 0) {
-      digitalWrite(IND_LED_RED, !digitalRead(IND_LED_RED));
-      Serial.println(".");
-    }
-    delay(2);
-  }
-  digitalWrite(IND_LED_RED, LOW);
   Wire.setClock(400000);
   Wire.begin();
   delay(200);

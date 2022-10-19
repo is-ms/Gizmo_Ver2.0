@@ -20,11 +20,25 @@
 
 void setup()
 {
-  pinMode(IND_LED_RED, OUTPUT);
-  digitalWrite(IND_LED_RED, HIGH);
   Serial.begin(115200);
+  pinMode(IND_LED_RED, OUTPUT);
+  for (int i = 0; i <= 999; i++) {
+    if (i % 70 == 0) {
+      digitalWrite(IND_LED_RED, !digitalRead(IND_LED_RED));
+      Serial.println(".");
+    }
+    delay(2);
+  }
+  digitalWrite(IND_LED_RED, LOW);
+  Serial.println("Rx Setup Start..");
   receiver_setup();
+  Serial.println("Rx Setup Complete");
+  Serial.println("TOF Sensor Setup Start..");
+  VL53L0X_setup();
+  Serial.println("TOF Sensor Setup Complete");
+  Serial.println("MPU6050 Sensor Setup Start..");
   mpu6050_setup();
+  Serial.println("MPU6050 Sensor Setup Complete");
   motors_setup();
   digitalWrite(IND_LED_RED, LOW);
   loop_timer = micros();
@@ -42,6 +56,7 @@ void loop()
   else xx++;
   PID();
   motors_output();
+  //VL53L0X_read();
   /*if (RC_connected == 1) {                       //Check remote controller status and change drone states accordingly
     if (RC_armed == 1) {
     if (start != true) start = true;           //Don't re-write if already set to TRUE
@@ -95,7 +110,7 @@ void loop()
   */
   //display_rc_inputs();
   //mpu6050_display_angles();
-  //Serial.println(loop_timer);
+  //Serial.println(VL53L0X_test_value);
   /*Serial.print(M1_output);
     Serial.print("        ");
     Serial.print(M2_output);
@@ -106,7 +121,7 @@ void loop()
 
 
   if ((micros() - loop_timer) > 32024) PORTC |= 0b00000100;   //32000 counts = 4000 microseconds
-  else PORTC &= 0b11111011;  
+  else PORTC &= 0b11111011;
   while ((micros() - loop_timer) < 31952);
   loop_timer = micros();
 }

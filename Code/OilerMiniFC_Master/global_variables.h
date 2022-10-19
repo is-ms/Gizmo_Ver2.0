@@ -32,6 +32,8 @@ uint16_t RC_arm_counter = 0;
 int16_t throttle, pitch, roll, yaw;
 uint8_t throttle_loop_counter = 0;
 
+//Global variables for"VL53L0X_Interface"
+uint8_t VL53L0X_test_value = 0;
 //Global variables for"BME280_Interface"
 int16_t bmp280_ID = 0;
 uint16_t dig_T1;                                                        //Factory calibration parameters
