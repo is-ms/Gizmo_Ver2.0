@@ -12,7 +12,7 @@ void VL53L0X_setup()
   delay(200);
   VL53L0X_data_init();
   VL53L0X_static_init();
-  
+  VL53L0X_configure_interrupt();  
 }
 
 void VL53L0X_read()
@@ -398,5 +398,30 @@ void VL53L0X_static_init()
   Wire.beginTransmission(0x29);  
   Wire.write(0x80); 
   Wire.write(0x00); 
+  Wire.endTransmission();
+}
+
+void VL53L0X_configure_interrupt()
+{  
+  Wire.beginTransmission(0x29);  
+  Wire.write(0x0A); 
+  Wire.write(0x04); 
+  Wire.endTransmission();
+  
+  Wire.beginTransmission(0x29);  
+  Wire.write(0x84); 
+  Wire.endTransmission();
+  Wire.requestFrom(0x29, 1);
+  SYSTEM_INTERRUPT_CONFIG_GPIO = Wire.read();
+  SYSTEM_INTERRUPT_CONFIG_GPIO &= ~0x10;
+  
+  Wire.beginTransmission(0x29);  
+  Wire.write(0x84); 
+  Wire.write(SYSTEM_INTERRUPT_CONFIG_GPIO); 
+  Wire.endTransmission();
+    
+  Wire.beginTransmission(0x29);  
+  Wire.write(0x0B); 
+  Wire.write(0x01); 
   Wire.endTransmission();
 }
