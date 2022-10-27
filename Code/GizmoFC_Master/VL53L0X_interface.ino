@@ -4,7 +4,25 @@
 */
 
 #include <Wire.h>
+#include <VL53L0X.h>
 
+VL53L0X sensor;
+
+void VL53L0X_setup()
+{
+  Wire.setClock(400000);
+  Wire.begin();
+  sensor.setTimeout(500);
+  sensor.init();
+  sensor.startContinuous();
+}
+
+void VL53L0X_read()
+{
+  VL53L0X_altitude = sensor.readRangeContinuousMillimeters();
+}
+
+/*
 void VL53L0X_setup()
 {
   Wire.setClock(400000);
@@ -13,6 +31,7 @@ void VL53L0X_setup()
   VL53L0X_data_init();
   VL53L0X_static_init();
   VL53L0X_configure_interrupt();  
+  VL53L0X_configure_sequence_steps();
 }
 
 void VL53L0X_read()
@@ -425,3 +444,12 @@ void VL53L0X_configure_interrupt()
   Wire.write(0x01); 
   Wire.endTransmission();
 }
+
+void VL53L0X_configure_sequence_steps()
+{
+  Wire.beginTransmission(0x29);  
+  Wire.write(0x01); 
+  Wire.write(0xE8); 
+  Wire.endTransmission();
+}
+*/
