@@ -37,6 +37,7 @@ uint16_t VL53L0X_altitude = 0;
 uint8_t VHV_CONFIG_PAD_SCL_SDA__EXTSUP_HV = 0;
 uint8_t SYSTEM_INTERRUPT_CONFIG_GPIO = 0;
 uint8_t VL53L0X_stop_variable = 0;
+uint8_t VL53L0X_int = 0x01;
 uint8_t VL53L0X_test_value = 0;
 //Global variables for"BME280_Interface"
 int16_t bmp280_ID = 0;
