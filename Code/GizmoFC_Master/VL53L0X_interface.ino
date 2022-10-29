@@ -3,26 +3,6 @@
   C:\Program Files\arduino-1.8.7\hardware\Arduino_STM32-master\STM32F1\cores\maple\libmaple\i2c_f1.c
 */
 
-#include <Wire.h>
-#include <VL53L0X.h>
-
-VL53L0X sensor;
-
-void VL53L0X_setup()
-{
-  Wire.setClock(400000);
-  Wire.begin();
-  sensor.setTimeout(500);
-  sensor.init();
-  sensor.startContinuous();
-}
-
-void VL53L0X_read()
-{
-  VL53L0X_altitude = sensor.readRangeContinuousMillimeters();
-}
-
-/*
 void VL53L0X_setup()
 {
   Wire.setClock(400000);
@@ -452,4 +432,3 @@ void VL53L0X_configure_sequence_steps()
   Wire.write(0xE8); 
   Wire.endTransmission();
 }
-*/
