@@ -2,9 +2,24 @@
   SCL, SDA pins MUST be remapped to PB8, PB9 in the file below
   C:\Program Files\arduino-1.8.7\hardware\Arduino_STM32-master\STM32F1\cores\maple\libmaple\i2c_f1.c
 */
+VL53L0X sensor;
 
 void VL53L0X_setup()
 {
+  sensor.setTimeout(500);
+  sensor.init();
+  //sensor.setMeasurementTimingBudget(20000);
+  sensor.startContinuous();
+}
+
+void VL53L0X_read()
+{
+  //sensor.readRangeSingleMillimeters();
+  VL53L0X_altitude = sensor.readRangeContinuousMillimeters();
+}
+/*
+  void VL53L0X_setup()
+  {
   Wire.setClock(400000);
   Wire.begin();
   delay(200);
@@ -13,10 +28,10 @@ void VL53L0X_setup()
   VL53L0X_configure_interrupt();
   VL53L0X_calibrate();
   VL53L0X_configure_sequence_steps();
-}
+  }
 
-void VL53L0X_read()
-{
+  void VL53L0X_read()
+  {
   Wire.beginTransmission(0x29);                         //Stop any ongoing measurements
   Wire.write(0x80);
   Wire.write(0x01);
@@ -60,7 +75,7 @@ void VL53L0X_read()
     Wire.requestFrom(0x29, 1);
     VL53L0X_int = Wire.read() & 0x07;
   }
-  
+
   Wire.beginTransmission(0x29);                         //Read range in millimeters
   Wire.write(0x1E);
   Wire.endTransmission();
@@ -71,7 +86,7 @@ void VL53L0X_read()
   Wire.write(0x0B);
   Wire.write(0x01);
   Wire.endTransmission();
-}
+  }*/
 
 void VL53L0X_data_init()
 {
@@ -496,7 +511,7 @@ void VL53L0X_calibrate()
     Wire.requestFrom(0x29, 1);
     VL53L0X_int = Wire.read() & 0x07;
   }
-  
+
   //Start Phase calibration
   Wire.beginTransmission(0x29);
   Wire.write(0x01);
@@ -516,7 +531,7 @@ void VL53L0X_calibrate()
     Wire.requestFrom(0x29, 1);
     VL53L0X_int = Wire.read() & 0x07;
   }
-  
+
   Wire.beginTransmission(0x29);                         //Clear result interrupt
   Wire.write(0x0B);
   Wire.write(0x01);
@@ -524,7 +539,7 @@ void VL53L0X_calibrate()
   Wire.beginTransmission(0x29);
   Wire.write(0x00);
   Wire.write(0x00);
-  Wire.endTransmission();  
+  Wire.endTransmission();
 }
 
 void VL53L0X_configure_sequence_steps()

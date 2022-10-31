@@ -3,12 +3,8 @@
   C:\Program Files\arduino-1.8.7\hardware\Arduino_STM32-master\STM32F1\cores\maple\libmaple\i2c_f1.c
 */
 
-#include <Wire.h>
-
 void mpu6050_setup()
 {
-  Wire.setClock(400000);
-  Wire.begin();
   delay(200);
   set_mpu6050_registers();
   delay(40);

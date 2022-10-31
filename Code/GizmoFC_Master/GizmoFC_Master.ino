@@ -12,15 +12,19 @@
        Target MCU ATMEGA328p
   _________________________________________________________
 */
+#include <Wire.h>
 #include <SPI.h>
 #include <nRF24L01.h>
 #include <RF24.h>
+#include <VL53L0X.h>
 #include "global_variables.h"
 #include "GPIOs_Map.h"
 
 void setup()
 {
   Serial.begin(115200);
+  Wire.setClock(400000);
+  Wire.begin();
   pinMode(IND_LED_RED, OUTPUT);
   for (int i = 0; i <= 999; i++) {
     if (i % 70 == 0) {
@@ -52,11 +56,11 @@ void loop()
   if (xx >= 4) {
     xx = 0;
     receiver_read();
+    VL53L0X_read();
   }
   else xx++;
   PID();
   motors_output();
-  VL53L0X_read();
   /*if (RC_connected == 1) {                       //Check remote controller status and change drone states accordingly
     if (RC_armed == 1) {
     if (start != true) start = true;           //Don't re-write if already set to TRUE

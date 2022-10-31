@@ -25,6 +25,15 @@ void motors_output()
   OCR2B = uint8_t(M4_output);
 }
 
+void motors_idle()
+{
+  M1_output = 20;
+  M2_output = 20;
+  M3_output = 20;
+  M4_output = 20;
+  motors_output();
+}
+
 void motors_off()
 {
   M1_output = 0;
