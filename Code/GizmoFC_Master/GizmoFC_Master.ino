@@ -56,11 +56,11 @@ void loop()
   if (xx >= 4) {
     xx = 0;
     receiver_read();
-    VL53L0X_read();
   }
   else xx++;
   PID();
   motors_output();
+  //VL53L0X_read();
   /*if (RC_connected == 1) {                       //Check remote controller status and change drone states accordingly
     if (RC_armed == 1) {
     if (start != true) start = true;           //Don't re-write if already set to TRUE
@@ -114,7 +114,7 @@ void loop()
   */
   //display_rc_inputs();
   //mpu6050_display_angles();
-  Serial.println(VL53L0X_altitude);
+  //Serial.println(VL53L0X_altitude);
   /*Serial.print(M1_output);
     Serial.print("        ");
     Serial.print(M2_output);
