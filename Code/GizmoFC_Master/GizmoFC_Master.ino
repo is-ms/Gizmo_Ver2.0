@@ -113,7 +113,7 @@ void loop()
   //display_rc_inputs();
   //mpu6050_display_angles();
   //Serial.println(VL53L0X_altitude);
-  //Serial.println(packet);
+  //Serial.println(altitude_pid_output);
   /*Serial.print(M1_output);
     Serial.print("        ");
     Serial.print(M2_output);

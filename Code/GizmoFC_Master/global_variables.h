@@ -84,26 +84,27 @@ uint16_t PWR_LEDs_local_off_delay, PWR_LEDs_local_on_delay;
 //altitude_PID
 bool altitude_PID_enabled = false;
 int8_t rc_throttle_input = 0;
+uint8_t rc_throttle_input_counter = 0;
 float altitude_setpoint, altitude_error, altitude_i_error, altitude_last_error;
 float altitude_pid_p_gain = 2;
 float altitude_pid_i_gain = 0.1;
 float altitude_pid_d_gain = 0;
-int16_t altitude_pid_output = 0;
+uint8_t altitude_pid_output = 0;
 
 //pitch_PID
 int8_t rc_pitch_input = 0;
 float pitch_setpoint, pitch_error, pitch_i_error, pitch_last_error;
-float pitch_pid_p_gain = 1;
-float pitch_pid_i_gain = 0.0;
-float pitch_pid_d_gain = 0;
+float pitch_pid_p_gain = 10;
+float pitch_pid_i_gain = 0;
+float pitch_pid_d_gain = 28;
 int16_t pitch_pid_output = 0;
 
 //roll_PID
 int8_t rc_roll_input = 0;
 float roll_setpoint, roll_error, roll_i_error, roll_last_error;
-float roll_pid_p_gain = 1;
-float roll_pid_i_gain = 0.0;
-float roll_pid_d_gain = 0;
+float roll_pid_p_gain = 10;
+float roll_pid_i_gain = 0;
+float roll_pid_d_gain = 28;
 int16_t roll_pid_output = 0;
 
 //yaw_PID

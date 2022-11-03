@@ -5,7 +5,16 @@
 void PID()
 {
   if (altitude_PID_enabled) altitude_PID();
-  else altitude_pid_output += rc_throttle_input;
+  else
+  {
+    if (rc_throttle_input_counter >= 12) {
+      altitude_pid_output += rc_throttle_input;
+      rc_throttle_input_counter = 0;
+    }
+    else rc_throttle_input_counter++;
+    if (altitude_pid_output < 2) altitude_pid_output = 2;
+    if (altitude_pid_output > 200) altitude_pid_output = 200;
+  }
   pitch_PID();
   roll_PID();
   yaw_PID();
@@ -44,8 +53,8 @@ void pitch_PID()
   pitch_pid_output = (pitch_pid_p_gain * pitch_error) + pitch_i_error + (pitch_pid_d_gain * (pitch_error - pitch_last_error));
   pitch_last_error = pitch_error;
 
-  if (pitch_pid_output > 40) pitch_pid_output = 40;                                         //Limit PID output
-  if (pitch_pid_output < -40) pitch_pid_output = -40;
+  if (pitch_pid_output > 120) pitch_pid_output = 120;                                         //Limit PID output
+  if (pitch_pid_output < -120) pitch_pid_output = -120;
 }
 
 void roll_PID()
@@ -56,8 +65,8 @@ void roll_PID()
   roll_pid_output = (roll_pid_p_gain * roll_error) + roll_i_error + (roll_pid_d_gain * (roll_error - roll_last_error));
   roll_last_error = roll_error;
 
-  if (roll_pid_output > 40) roll_pid_output = 40;                                           //Limit PID output
-  if (roll_pid_output < -40) roll_pid_output = -40;
+  if (roll_pid_output > 120) roll_pid_output = 120;                                           //Limit PID output
+  if (roll_pid_output < -120) roll_pid_output = -120;
 }
 
 void yaw_PID()
