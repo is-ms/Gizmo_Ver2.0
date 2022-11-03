@@ -99,7 +99,7 @@ void mpu6050_setup()
   }
   digitalWrite(IND_LED_RED, LOW);
   delay(2000);
-  for (int i = 0; i < 10; i++)
+  for (int i = 0; i < 5; i++)
   {
     mpu6050_read();
     if ((acc_total_vector >= 4090) && (acc_total_vector <= 4102)) //Condition to ensure that sensor is stationary on initialization
@@ -113,8 +113,8 @@ void mpu6050_setup()
       if (i <= 0) i = 0;
     }
   }
-  roll_angle = (roll_angle_acc_startup / 10);
-  pitch_angle = (pitch_angle_acc_startup / 10);
+  roll_angle = (roll_angle_acc_startup / 5);
+  pitch_angle = (pitch_angle_acc_startup / 5);
   digitalWrite(IND_LED_RED, HIGH);
 }
 
@@ -145,13 +145,13 @@ void mpu6050_read()
   //gyro_axis[0] *= -1;                                 //Invert the direction of the gyro pitch axis ref. to the drone geometry
   gyro_axis[1] *= -1;                                   //Invert the direction of the gyro roll axis ref. to the drone geometry
   //gyro_axis[2] *= -1;                                 //Invert the direction of the gyro yaw axis ref. to the drone geometry
-  mpu6050_temperature = ((float)mpu6050_temperature_raw / 340) + 36.53;
+  //mpu6050_temperature = ((float)mpu6050_temperature_raw / 340) + 36.53;
 
   //>>>>>>>>>>>  GYRO ANGLE CALC  <<<<<<<<<<<
 
-  roll_angle += (float)gyro_axis[1] / (250 * 65.5);             //Y-axis  ROLL
-  pitch_angle += (float)gyro_axis[0] / (250 * 65.5);            //X-axis  PITCH
-  yaw_angle += (float)gyro_axis[2] / (250 * 65.5);              //Z-axis  YAW
+  roll_angle += (float)gyro_axis[1] / 16375;             //Y-axis  ROLL // 16375 =>(250 * 65.5)
+  pitch_angle += (float)gyro_axis[0] / 16375;            //X-axis  PITCH
+  yaw_angle += (float)gyro_axis[2] / 16375;              //Z-axis  YAW
   pitch_angle -= roll_angle * sin(gyro_axis[2] * 0.000001066);  //If the IMU has yawed transfer the roll angle to the pitch angel.
   roll_angle += pitch_angle * sin(gyro_axis[2] * 0.000001066);  //If the IMU has yawed transfer the pitch angle to the roll angel.
 
@@ -160,8 +160,8 @@ void mpu6050_read()
   acc_total_vector = sqrt((acc_axis[0] * acc_axis[0]) + (acc_axis[1] * acc_axis[1]) + (acc_axis[2] * acc_axis[2]));    //Calculate the total accelerometer vector
   if (abs(acc_axis[0]) < acc_total_vector) roll_angle_acc = asin((float)acc_axis[0] / acc_total_vector) * 57.296;
   if (abs(acc_axis[1]) < acc_total_vector) pitch_angle_acc = asin((float)acc_axis[1] / acc_total_vector) * -57.296;
-  roll_angle_acc += 0.01;                                       //Sensor to frame mounting offset
-  pitch_angle_acc -= 0.22;
+  roll_angle_acc -= 0.01;                                       //Sensor to frame mounting offset
+  pitch_angle_acc = 0.12;
 
   //>>>>>>>>>>>  FINAL ANGLE CALC  <<<<<<<<<<
 

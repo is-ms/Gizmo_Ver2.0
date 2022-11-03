@@ -26,7 +26,7 @@ void setup()
   Wire.setClock(400000);
   Wire.begin();
   pinMode(IND_LED_RED, OUTPUT);
-  for (int i = 0; i <= 999; i++) {
+  for (int i = 0; i <= 1999; i++) {
     if (i % 70 == 0) {
       digitalWrite(IND_LED_RED, !digitalRead(IND_LED_RED));
       Serial.println(".");
@@ -37,9 +37,9 @@ void setup()
   Serial.println("Rx Setup Start..");
   receiver_setup();
   Serial.println("Rx Setup Complete");
-  Serial.println("TOF Sensor Setup Start..");
-  VL53L0X_setup();
-  Serial.println("TOF Sensor Setup Complete");
+  //Serial.println("TOF Sensor Setup Start..");
+  //VL53L0X_setup();
+  //Serial.println("TOF Sensor Setup Complete");
   Serial.println("MPU6050 Sensor Setup Start..");
   mpu6050_setup();
   Serial.println("MPU6050 Sensor Setup Complete");
@@ -50,17 +50,15 @@ void setup()
 
 void loop()
 {
-  //VBatt_read();                                  //Read main battery voltage
-  //process_Rx_inputs();                           //Read remote controller inputs
+  //VBatt_read();                                  //Read main battery voltage - NOT AVAILABLE FOR GIZMO_Ver.2
+  //process_Rx_inputs();                           //Read remote controller inputs - NOT AVAILABLE FOR GIZMO_Ver.2
+  //VL53L0X_read();
   mpu6050_read();
-  if (xx >= 4) {
-    xx = 0;
+  if ((loop_delay_counter % 4) == 0) {
     receiver_read();
   }
-  else xx++;
   PID();
   motors_output();
-  //VL53L0X_read();
   /*if (RC_connected == 1) {                       //Check remote controller status and change drone states accordingly
     if (RC_armed == 1) {
     if (start != true) start = true;           //Don't re-write if already set to TRUE
@@ -115,6 +113,7 @@ void loop()
   //display_rc_inputs();
   //mpu6050_display_angles();
   //Serial.println(VL53L0X_altitude);
+  //Serial.println(packet);
   /*Serial.print(M1_output);
     Serial.print("        ");
     Serial.print(M2_output);
@@ -123,10 +122,11 @@ void loop()
     Serial.print("        ");
     Serial.println(M4_output);*/
 
+  loop_delay_counter++;
 
   if ((micros() - loop_timer) > 32024) PORTC |= 0b00000100;   //32000 counts = 4000 microseconds
   else PORTC &= 0b11111011;
-  while ((micros() - loop_timer) < 31952);
+  while ((micros() - loop_timer) < 32000);
   loop_timer = micros();
 }
 

@@ -5,7 +5,7 @@
 void PID()
 {
   if (altitude_PID_enabled) altitude_PID();
-  else altitude_pid_output = (rc_throttle_input * 6);
+  else altitude_pid_output += rc_throttle_input;
   pitch_PID();
   roll_PID();
   yaw_PID();

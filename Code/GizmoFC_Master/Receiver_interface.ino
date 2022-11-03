@@ -23,8 +23,8 @@ void receiver_read()
     radio.read(&packet, sizeof(packet));
 
     if (((packet & B00000001) == 0) && ((packet & B00000010) == 0))         rc_throttle_input = 0;//throttle = 3000;          //Throttle
-    else if ((packet & B00000001) == 0)                                     rc_throttle_input = 30;//throttle = 4000;
-    else if ((packet & B00000010) == 0)                                     rc_throttle_input = -30;//throttle = 2000;
+    else if ((packet & B00000001) == 0)                                     rc_throttle_input = 10;//throttle = 4000;
+    else if ((packet & B00000010) == 0)                                     rc_throttle_input = -10;//throttle = 2000;
     else                                                                    rc_throttle_input = 0;//throttle = 3000;
 
     if (((packet & B00100000) == 0) && ((packet & B00010000) == 0))         rc_pitch_input = 0;//pitch = 3000;             //Pitch
@@ -43,7 +43,7 @@ void receiver_read()
     else                                                                    rc_yaw_input = 0;//yaw = 3000;
     //Serial.println(packet);
     //print_result();
-    //PORTC &= 0b11111011;
+    PORTC &= 0b11111011;
   }
   else
   {
@@ -52,7 +52,7 @@ void receiver_read()
     roll = 3000;
     yaw = 3000;
     //Serial.println("No radio connection...");
-    //PORTC |= 0b00000100;
+    PORTC |= 0b00000100;
   }
 }
 
