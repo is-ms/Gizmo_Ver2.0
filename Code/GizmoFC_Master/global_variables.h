@@ -56,7 +56,7 @@ int32_t acc_axis[3];
 int16_t mpu6050_temperature_raw;
 int16_t gyro_axis[3];
 float mpu6050_temperature;
-bool acc_calibration_enabled = true;
+bool acc_calibration_enabled = false;
 bool gyro_calibration_enabled = true;
 int32_t acc_axis_cal[3];
 int32_t gyro_axis_cal[3];
@@ -95,7 +95,7 @@ uint8_t altitude_pid_output = 0;
 int8_t rc_pitch_input = 0;
 float pitch_setpoint, pitch_error, pitch_i_error, pitch_last_error;
 float pitch_pid_p_gain = 10;
-float pitch_pid_i_gain = 0;
+float pitch_pid_i_gain = 1;
 float pitch_pid_d_gain = 28;
 int16_t pitch_pid_output = 0;
 
@@ -103,7 +103,7 @@ int16_t pitch_pid_output = 0;
 int8_t rc_roll_input = 0;
 float roll_setpoint, roll_error, roll_i_error, roll_last_error;
 float roll_pid_p_gain = 10;
-float roll_pid_i_gain = 0;
+float roll_pid_i_gain = 1;
 float roll_pid_d_gain = 28;
 int16_t roll_pid_output = 0;
 

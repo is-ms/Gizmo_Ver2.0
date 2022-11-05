@@ -13,7 +13,7 @@ void PID()
     }
     else rc_throttle_input_counter++;
     if (altitude_pid_output < 2) altitude_pid_output = 2;
-    if (altitude_pid_output > 200) altitude_pid_output = 200;
+    if (altitude_pid_output > 230) altitude_pid_output = 230;
   }
   pitch_PID();
   roll_PID();

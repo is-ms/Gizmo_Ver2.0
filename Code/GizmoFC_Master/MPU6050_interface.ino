@@ -10,7 +10,7 @@ void mpu6050_setup()
   delay(40);
   if (acc_calibration_enabled)
   {
-    for (int i = 0; i < 100; i++) {                         //Accelerometer static bias filter.
+    for (int i = 0; i < 500; i++) {                         //Accelerometer static bias filter.
       if (i % 10 == 0) {
         digitalWrite(IND_LED_RED, !digitalRead(IND_LED_RED));
         Serial.println("Calibrating Accelerometer..");
@@ -37,22 +37,22 @@ void mpu6050_setup()
       delay(2);
     }
     digitalWrite(IND_LED_RED, HIGH);
-    acc_axis_cal[0] /= 100;
-    acc_axis_cal[1] /= 100;
-    acc_axis_cal[2] /= 100;
+    acc_axis_cal[0] /= 500;
+    acc_axis_cal[1] /= 500;
+    acc_axis_cal[2] /= 500;
     acc_axis_cal[2] -= 4096;
   }
   else
   {
     digitalWrite(IND_LED_RED, HIGH);
-    acc_axis_cal[0] = 159;
-    acc_axis_cal[1] = -15;
-    acc_axis_cal[2] = 215;
+    acc_axis_cal[0] = 0;
+    acc_axis_cal[1] = 0;
+    acc_axis_cal[2] = 0;
   }
 
   if (gyro_calibration_enabled)
   {
-    for (int i = 0; i < 100; i++) {                        //Gyro static bias filter.
+    for (int i = 0; i < 500; i++) {                        //Gyro static bias filter.
       if (i % 10 == 0) {
         digitalWrite(IND_LED_RED, !digitalRead(IND_LED_RED));
         Serial.println("Calibrating Gyroscope..");
@@ -68,53 +68,53 @@ void mpu6050_setup()
       gyro_axis[0] = Wire.read() << 8 | Wire.read();
       gyro_axis[1] = Wire.read() << 8 | Wire.read();
       gyro_axis[2] = Wire.read() << 8 | Wire.read();
-      acc_axis[0] -= acc_axis_cal[0];
-      acc_axis[1] -= acc_axis_cal[1];
-      acc_axis[2] -= acc_axis_cal[2];
-      acc_total_vector = sqrt((acc_axis[0] * acc_axis[0]) + (acc_axis[1] * acc_axis[1]) + (acc_axis[2] * acc_axis[2]));    //Calculate the total accelerometer vector
-      if ((acc_total_vector >= 4080) && (acc_total_vector <= 4112))       //Condition to ensure that sensor is stationary on initialization
-      {
+      //acc_axis[0] -= acc_axis_cal[0];
+      //acc_axis[1] -= acc_axis_cal[1];
+      //acc_axis[2] -= acc_axis_cal[2];
+      //acc_total_vector = sqrt((acc_axis[0] * acc_axis[0]) + (acc_axis[1] * acc_axis[1]) + (acc_axis[2] * acc_axis[2]));    //Calculate the total accelerometer vector
+      //if ((acc_total_vector >= 4080) && (acc_total_vector <= 4112))       //Condition to ensure that sensor is stationary on initialization
+      //{
         gyro_axis_cal[0] += gyro_axis[0];
         gyro_axis_cal[1] += gyro_axis[1];
         gyro_axis_cal[2] += gyro_axis[2];
-      }
-      else
-      {
-        i--;
-        if (i <= 0) i = 0;
-      }
+      //}
+      //else
+      //{
+      //  i--;
+      //  if (i <= 0) i = 0;
+      //}
       delay(2);
     }
     digitalWrite(IND_LED_RED, HIGH);
-    gyro_axis_cal[0] /= 100;
-    gyro_axis_cal[1] /= 100;
-    gyro_axis_cal[2] /= 100;
+    gyro_axis_cal[0] /= 500;
+    gyro_axis_cal[1] /= 500;
+    gyro_axis_cal[2] /= 500;
   }
   else
   {
     digitalWrite(IND_LED_RED, HIGH);
-    gyro_axis_cal[0] = -327;
-    gyro_axis_cal[1] = -25;
-    gyro_axis_cal[2] = -249;
+    gyro_axis_cal[0] = -326;
+    gyro_axis_cal[1] = -33;
+    gyro_axis_cal[2] = -254;
   }
   digitalWrite(IND_LED_RED, LOW);
   delay(2000);
-  for (int i = 0; i < 5; i++)
+  for (int i = 0; i < 15; i++)
   {
     mpu6050_read();
-    if ((acc_total_vector >= 4090) && (acc_total_vector <= 4102)) //Condition to ensure that sensor is stationary on initialization
-    {
+    //if ((acc_total_vector >= 4090) && (acc_total_vector <= 4102)) //Condition to ensure that sensor is stationary on initialization
+    //{
       roll_angle_acc_startup += roll_angle_acc;
       pitch_angle_acc_startup += pitch_angle_acc;
-    }
-    else
-    {
-      i--;
-      if (i <= 0) i = 0;
-    }
+    //}
+    //else
+    //{
+    //  i--;
+    //  if (i <= 0) i = 0;
+    //}
   }
-  roll_angle = (roll_angle_acc_startup / 5);
-  pitch_angle = (pitch_angle_acc_startup / 5);
+  roll_angle = (roll_angle_acc_startup / 15);
+  pitch_angle = (pitch_angle_acc_startup / 15);
   digitalWrite(IND_LED_RED, HIGH);
 }
 
@@ -133,9 +133,9 @@ void mpu6050_read()
   gyro_axis[0] = Wire.read() << 8 | Wire.read();
   gyro_axis[1] = Wire.read() << 8 | Wire.read();
   gyro_axis[2] = Wire.read() << 8 | Wire.read();
-  acc_axis[0] -= acc_axis_cal[0];
-  acc_axis[1] -= acc_axis_cal[1];
-  acc_axis[2] -= acc_axis_cal[2];
+  //acc_axis[0] -= acc_axis_cal[0];
+  //acc_axis[1] -= acc_axis_cal[1];
+  //acc_axis[2] -= acc_axis_cal[2];
   gyro_axis[0] -= gyro_axis_cal[0];
   gyro_axis[1] -= gyro_axis_cal[1];
   gyro_axis[2] -= gyro_axis_cal[2];
@@ -160,8 +160,8 @@ void mpu6050_read()
   acc_total_vector = sqrt((acc_axis[0] * acc_axis[0]) + (acc_axis[1] * acc_axis[1]) + (acc_axis[2] * acc_axis[2]));    //Calculate the total accelerometer vector
   if (abs(acc_axis[0]) < acc_total_vector) roll_angle_acc = asin((float)acc_axis[0] / acc_total_vector) * 57.296;
   if (abs(acc_axis[1]) < acc_total_vector) pitch_angle_acc = asin((float)acc_axis[1] / acc_total_vector) * -57.296;
-  roll_angle_acc -= 0.01;                                       //Sensor to frame mounting offset
-  pitch_angle_acc = 0.12;
+  roll_angle_acc -= 1.61;                                       //Sensor to frame mounting offset
+  pitch_angle_acc = 0.02;
 
   //>>>>>>>>>>>  FINAL ANGLE CALC  <<<<<<<<<<
 
