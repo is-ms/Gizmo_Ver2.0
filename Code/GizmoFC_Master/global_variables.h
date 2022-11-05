@@ -94,17 +94,17 @@ uint8_t altitude_pid_output = 0;
 //pitch_PID
 int8_t rc_pitch_input = 0;
 float pitch_setpoint, pitch_error, pitch_i_error, pitch_last_error;
-float pitch_pid_p_gain = 10;
-float pitch_pid_i_gain = 1;
-float pitch_pid_d_gain = 28;
+float pitch_pid_p_gain = 3.8;
+float pitch_pid_i_gain = 0;
+float pitch_pid_d_gain = 11;
 int16_t pitch_pid_output = 0;
 
 //roll_PID
 int8_t rc_roll_input = 0;
 float roll_setpoint, roll_error, roll_i_error, roll_last_error;
-float roll_pid_p_gain = 10;
-float roll_pid_i_gain = 1;
-float roll_pid_d_gain = 28;
+float roll_pid_p_gain = 3.8;
+float roll_pid_i_gain = 0;
+float roll_pid_d_gain = 11;
 int16_t roll_pid_output = 0;
 
 //yaw_PID
@@ -112,5 +112,5 @@ int8_t rc_yaw_input = 0;
 float yaw_setpoint, yaw_error, yaw_i_error, yaw_last_error;
 float yaw_pid_p_gain = 1;
 float yaw_pid_i_gain = 0.0;
-float yaw_pid_d_gain = 0;
+float yaw_pid_d_gain = 5;
 int16_t yaw_pid_output = 0;

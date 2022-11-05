@@ -111,7 +111,7 @@ void loop()
     previous_state = start;
   */
   //display_rc_inputs();
-  mpu6050_display_angles();
+  //mpu6050_display_angles();
   //Serial.println(VL53L0X_altitude);
   //Serial.println(acc_total_vector);
   /*Serial.print(M1_output);
