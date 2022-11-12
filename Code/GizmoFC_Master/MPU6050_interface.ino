@@ -160,7 +160,7 @@ void mpu6050_read()
   acc_total_vector = sqrt((acc_axis[0] * acc_axis[0]) + (acc_axis[1] * acc_axis[1]) + (acc_axis[2] * acc_axis[2]));    //Calculate the total accelerometer vector
   if (abs(acc_axis[0]) < acc_total_vector) roll_angle_acc = asin((float)acc_axis[0] / acc_total_vector) * 57.296;
   if (abs(acc_axis[1]) < acc_total_vector) pitch_angle_acc = asin((float)acc_axis[1] / acc_total_vector) * -57.296;
-  roll_angle_acc -= 1.25;                                       //Sensor to frame mounting offset
+  roll_angle_acc -= 3.25;                                       //Sensor to frame mounting offset
   pitch_angle_acc += 0.91;
 
   //>>>>>>>>>>>  FINAL ANGLE CALC  <<<<<<<<<<
