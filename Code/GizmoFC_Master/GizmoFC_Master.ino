@@ -58,8 +58,9 @@ void loop()
     receiver_read();
   }
   PID();
-  if (altitude_pid_output <= 12) motors_off();
-  else motors_output();
+  //if (altitude_pid_output <= 12) motors_off();
+  //else motors_output();
+  motors_output();
   /*if (RC_connected == 1) {                       //Check remote controller status and change drone states accordingly
     if (RC_armed == 1) {
     if (start != true) start = true;           //Don't re-write if already set to TRUE
