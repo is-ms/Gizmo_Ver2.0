@@ -57,10 +57,10 @@ void loop()
   if ((loop_delay_counter % 4) == 0) {
     receiver_read();
   }
+  IMU();
   PID();
-  //if (altitude_pid_output <= 12) motors_off();
-  //else motors_output();
-  motors_output();
+  if (altitude_pid_output <= 12) motors_off();
+  else motors_output();
   /*if (RC_connected == 1) {                       //Check remote controller status and change drone states accordingly
     if (RC_armed == 1) {
     if (start != true) start = true;           //Don't re-write if already set to TRUE
@@ -114,6 +114,7 @@ void loop()
   */
   //display_rc_inputs();
   //mpu6050_display_angles();
+  //IMU_display_angles();
   //Serial.println(VL53L0X_altitude);
   //Serial.println(acc_total_vector);
   /*Serial.print(M1_output);
@@ -124,7 +125,7 @@ void loop()
     Serial.print("        ");
     Serial.println(M4_output);*/
 
-  loop_delay_counter++;
+  (loop_delay_counter >= 4095) ? loop_delay_counter = 0 : loop_delay_counter++;
 
   if ((micros() - loop_timer) > 32024) PORTC |= 0b00000100;   //32000 counts = 4000 microseconds
   else PORTC &= 0b11111011;

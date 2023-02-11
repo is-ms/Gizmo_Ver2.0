@@ -2,6 +2,10 @@
 
 */
 
+#define RAD_TO_DEG  57.2957795131
+#define DEG_TO_RAD  0.01745329252
+#define g_acc       9.80665
+
 float VBatt;
 //Global variables for "Main"
 bool start = 0;
@@ -55,16 +59,25 @@ float bmp280_pressure, bmp280_ground_altitude, bmp280_altitude;
 int32_t acc_axis[3];
 int16_t mpu6050_temperature_raw;
 int16_t gyro_axis[3];
+int16_t gyro_axis_dps[3];
 float mpu6050_temperature;
-bool acc_calibration_enabled = false;
 bool gyro_calibration_enabled = true;
-int32_t acc_axis_cal[3];
+float acc_scale_corr[3][3] = {{0.993368, 0.000021, -0.002501}, {0.000021, 0.993433, 0.000434}, { -0.002501, 0.000434, 0.986603}};
+float acc_bias_corr[3] = {94.623890, -64.502734, -42.677866};
+float acc_axis_calibrated[3];
+float acc_axis_lpf[3];
 int32_t gyro_axis_cal[3];
+float gyro_axis_lpf[3];
 int32_t acc_total_vector;
 int16_t counter = 0;
 float gyro_roll, gyro_pitch, gyro_yaw;
 float roll_angle, pitch_angle, yaw_angle;
 float roll_angle_acc, pitch_angle_acc, yaw_angle_acc, roll_angle_acc_startup, pitch_angle_acc_startup;
+float roll_angle_acc_trim = 1.888;
+float pitch_angle_acc_trim = 1.666;
+
+//Global variables for "IMU"
+float acc_axis_rotated[3];
 
 //Global variables for "Motors_Interface"
 int16_t M1_output = 0;
@@ -94,23 +107,23 @@ uint8_t altitude_pid_output = 0;
 //pitch_PID
 int8_t rc_pitch_input = 0;
 float pitch_setpoint, pitch_error, pitch_i_error, pitch_last_error;
-float pitch_pid_p_gain = 2;
-float pitch_pid_i_gain = 0.0;
-float pitch_pid_d_gain = 24;
+float pitch_pid_p_gain = 0.2;
+float pitch_pid_i_gain = 0.001;
+float pitch_pid_d_gain = 1.2;
 int16_t pitch_pid_output = 0;
 
 //roll_PID
 int8_t rc_roll_input = 0;
 float roll_setpoint, roll_error, roll_i_error, roll_last_error;
-float roll_pid_p_gain = 2;
-float roll_pid_i_gain = 0.0;
-float roll_pid_d_gain = 24;
+float roll_pid_p_gain = 0.2;
+float roll_pid_i_gain = 0.001;
+float roll_pid_d_gain = 1.2;
 int16_t roll_pid_output = 0;
 
 //yaw_PID
 int8_t rc_yaw_input = 0;
 float yaw_setpoint, yaw_error, yaw_i_error, yaw_last_error;
-float yaw_pid_p_gain = 2.2;
-float yaw_pid_i_gain = 0.0;
-float yaw_pid_d_gain = 12;
+float yaw_pid_p_gain = 0.4;
+float yaw_pid_i_gain = 0.001;
+float yaw_pid_d_gain = 8.2;
 int16_t yaw_pid_output = 0;
