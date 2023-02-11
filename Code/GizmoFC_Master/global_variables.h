@@ -73,8 +73,8 @@ int16_t counter = 0;
 float gyro_roll, gyro_pitch, gyro_yaw;
 float roll_angle, pitch_angle, yaw_angle;
 float roll_angle_acc, pitch_angle_acc, yaw_angle_acc, roll_angle_acc_startup, pitch_angle_acc_startup;
-float roll_angle_acc_trim = 1.888;
-float pitch_angle_acc_trim = 1.666;
+float roll_angle_acc_trim = -1.688;
+float pitch_angle_acc_trim = 0.966;
 
 //Global variables for "IMU"
 float acc_axis_rotated[3];
@@ -107,17 +107,17 @@ uint8_t altitude_pid_output = 0;
 //pitch_PID
 int8_t rc_pitch_input = 0;
 float pitch_setpoint, pitch_error, pitch_i_error, pitch_last_error;
-float pitch_pid_p_gain = 0.2;
+float pitch_pid_p_gain = 0.42;
 float pitch_pid_i_gain = 0.001;
-float pitch_pid_d_gain = 1.2;
+float pitch_pid_d_gain = 2.2;
 int16_t pitch_pid_output = 0;
 
 //roll_PID
 int8_t rc_roll_input = 0;
 float roll_setpoint, roll_error, roll_i_error, roll_last_error;
-float roll_pid_p_gain = 0.2;
+float roll_pid_p_gain = 0.42;
 float roll_pid_i_gain = 0.001;
-float roll_pid_d_gain = 1.2;
+float roll_pid_d_gain = 2.2;
 int16_t roll_pid_output = 0;
 
 //yaw_PID

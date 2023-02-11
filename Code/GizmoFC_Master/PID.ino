@@ -53,8 +53,8 @@ void pitch_PID()
   pitch_pid_output = (pitch_pid_p_gain * pitch_error) + pitch_i_error + (pitch_pid_d_gain * (pitch_error - pitch_last_error));
   pitch_last_error = pitch_error;
 
-  if (pitch_pid_output > 120) pitch_pid_output = 120;                                         //Limit PID output
-  if (pitch_pid_output < -120) pitch_pid_output = -120;
+  if (pitch_pid_output > 160) pitch_pid_output = 160;                                         //Limit PID output
+  if (pitch_pid_output < -160) pitch_pid_output = -160;
 }
 
 void roll_PID()
@@ -65,8 +65,8 @@ void roll_PID()
   roll_pid_output = (roll_pid_p_gain * roll_error) + roll_i_error + (roll_pid_d_gain * (roll_error - roll_last_error));
   roll_last_error = roll_error;
 
-  if (roll_pid_output > 120) roll_pid_output = 120;                                           //Limit PID output
-  if (roll_pid_output < -120) roll_pid_output = -120;
+  if (roll_pid_output > 160) roll_pid_output = 160;                                           //Limit PID output
+  if (roll_pid_output < -160) roll_pid_output = -160;
 }
 
 void yaw_PID()
@@ -77,6 +77,6 @@ void yaw_PID()
   yaw_pid_output = (yaw_pid_p_gain * yaw_error) + yaw_i_error + (yaw_pid_d_gain * (yaw_error - yaw_last_error));
   yaw_last_error = yaw_error;
 
-  if (yaw_pid_output > 40) yaw_pid_output = 40;                                             //Limit PID output
-  if (yaw_pid_output < -40) yaw_pid_output = -40;
+  if (yaw_pid_output > 100) yaw_pid_output = 100;                                             //Limit PID output
+  if (yaw_pid_output < -100) yaw_pid_output = -100;
 }

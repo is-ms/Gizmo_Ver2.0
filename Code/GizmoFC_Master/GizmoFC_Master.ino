@@ -53,12 +53,14 @@ void loop()
   //VBatt_read();                                  //Read main battery voltage - NOT AVAILABLE FOR GIZMO_Ver.2
   //process_Rx_inputs();                           //Read remote controller inputs - NOT AVAILABLE FOR GIZMO_Ver.2
   //VL53L0X_read();
+  if (FailSafe()) motors_off();
   mpu6050_read();
   if ((loop_delay_counter % 4) == 0) {
     receiver_read();
   }
   IMU();
   PID();
+  if (FailSafe()) motors_off();
   if (altitude_pid_output <= 12) motors_off();
   else motors_output();
   /*if (RC_connected == 1) {                       //Check remote controller status and change drone states accordingly
