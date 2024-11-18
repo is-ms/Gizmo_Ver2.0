@@ -136,12 +136,12 @@ void set_mpu6050_registers()
   Wire.beginTransmission(0x68);
   Wire.write(0x1B);
   Wire.endTransmission();
-  Wire.requestFrom(0x68, 1);                            //Quick check that MPU6050 is running & receiving the correct configurations
-  while (Wire.available() < 1);
-  if (Wire.read() != 0x08) {
-    digitalWrite(IND_LED_RED, HIGH);
-    while (1) delay(10);
-  }
+  //Wire.requestFrom(0x68, 1);                            //Quick check that MPU6050 is running & receiving the correct configurations
+  //while (Wire.available() < 1);
+  //if (Wire.read() != 0x08) {
+  //  digitalWrite(IND_LED_RED, HIGH);
+  //  while (1) delay(10);
+  //}
   Wire.beginTransmission(0x68);
   Wire.write(0x1A);                                     //We want to write to the CONFIG register (1A hex).
   Wire.write(0x03);                                     //Set the register bits as 00000011 (Set Digital Low Pass Filter to ~43Hz).
